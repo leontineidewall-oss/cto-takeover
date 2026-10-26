@@ -1,0 +1,85 @@
+/* cto motion layer: intro, the chair, band, morgue tags, toll canvas, pointer toys */
+/* intro: the poster drops, the sign swings in, the chair spins, the stamp slams (under 1.6 s) */
+.hero .board.rv{opacity:1;transform:none;transition:none}
+.hero .poster{animation:pdrop .7s cubic-bezier(.2,1.25,.4,1) both;cursor:pointer}
+.hero .sign{animation:sdrop .8s .3s cubic-bezier(.2,1.3,.4,1) both;transform-origin:50% 0}
+.hero .stamp.slam{animation-delay:1.05s}
+.hero .board{animation:thud .32s 1.18s ease-out}
+@keyframes pdrop{0%{opacity:0;transform:translateY(-160px) rotate(-10deg)}100%{opacity:1;transform:rotate(-2.5deg)}}
+@keyframes sdrop{0%{opacity:0;transform:translateY(-110px) rotate(16deg)}55%{opacity:1}100%{opacity:1;transform:rotate(3.5deg)}}
+@keyframes thud{0%,100%{transform:none}30%{transform:translateY(4px)}60%{transform:translateY(-1px)}}
+.intro-done .hero .poster,.intro-done .hero .sign,.intro-done .hero .board,.intro-done .hero .stamp.slam{animation:none}
+.hero .sign.swing{animation:swing 1.1s ease-in-out}
+@keyframes swing{0%{transform:rotate(3.5deg)}25%{transform:rotate(-3deg)}50%{transform:rotate(6deg)}75%{transform:rotate(1.5deg)}100%{transform:rotate(3.5deg)}}
+/* the chair: idles, leans toward the pointer, spins now and then */
+.chairw{display:block;transform:rotate(var(--lean,0deg));transition:transform .5s cubic-bezier(.2,.8,.2,1);transform-origin:50% 92%}
+.chairw svg{display:block;transform-origin:50% 92%;animation:sway 5.5s ease-in-out infinite}
+.chairw.spin svg{animation:spin 1.1s cubic-bezier(.4,0,.2,1)}
+@keyframes sway{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.93) translateX(-2px)}}
+@keyframes spin{0%{transform:scaleX(1)}25%{transform:scaleX(-.2)}50%{transform:scaleX(-1)}75%{transform:scaleX(.2)}100%{transform:scaleX(1)}}
+.bubble{position:absolute;left:44%;top:88px;z-index:4;max-width:230px;padding:10px 14px;background:var(--sheet);border:1.5px solid var(--ink);box-shadow:4px 4px 0 var(--ink);font:700 14px/1.35 var(--type);opacity:0;transform:translateY(8px) scale(.95);transform-origin:0 100%;transition:opacity .25s,transform .3s cubic-bezier(.2,1.4,.4,1);pointer-events:none}
+.bubble:after{content:"";position:absolute;left:18px;bottom:-9px;width:14px;height:14px;background:var(--sheet);border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg)}
+.bubble.on{opacity:1;transform:none}
+/* nav tuck + reading bar */
+nav{transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s}
+nav.tuck{transform:translateY(-101%)}
+.fxbar{position:fixed;left:0;top:0;right:0;height:3px;background:var(--stamp);z-index:60;transform-origin:0 50%;transform:scaleX(0);pointer-events:none}
+/* split headings + kickers */
+.fxw .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.fxw .w>span{display:inline-block;transform:translateY(108%);transition:transform .85s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i)*55ms)}
+.vis .fxw .w>span,.fxw.vis .w>span{transform:none}
+/* band: police-tape style text that slides with the scroll */
+.band{overflow:hidden;padding:22px 0;margin-top:10px;user-select:none}
+.band .row{white-space:nowrap;font:900 clamp(46px,8vw,110px)/1.02 var(--sans);letter-spacing:-.04em;will-change:transform}
+.band .row span{padding-right:.35em}
+.band .row.o{color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+.band .row i{font-style:normal;color:var(--stamp);-webkit-text-stroke:0}
+/* morgue: toe tags for recently listed coins */
+.tags{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px 18px}
+.tagw{filter:drop-shadow(0 12px 14px rgba(40,30,10,.22));min-width:0}
+.tag{position:relative;display:block;width:100%;min-width:0;text-align:left;padding:34px 16px 16px;background:var(--kraft);color:var(--ink);clip-path:polygon(22px 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%,0 22px);transform:rotate(var(--r,0deg));transform-origin:50% 0;transition:transform .35s cubic-bezier(.2,1.3,.4,1)}
+.tag:before{content:"";position:absolute;left:50%;top:11px;width:13px;height:13px;margin-left:-6.5px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 2px rgba(110,80,40,.55)}
+.tag:hover,.tag:focus-visible{transform:rotate(0) translateY(-4px)}
+.tag:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.tag .sy{display:block;font:900 24px/1.05 var(--sans);letter-spacing:-.03em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:58px}
+.tag .nm{display:block;margin-top:3px;padding-right:58px;font:400 12px var(--type);color:#5b4a30;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag dl{margin-top:12px;font:400 13px/1.6 var(--type);border-top:1px dashed rgba(90,60,30,.35);padding-top:8px}
+.tag dl div{display:flex;justify-content:space-between;gap:8px}
+.tag dt{color:#6b5636}.tag dd{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag .st{position:absolute;right:10px;top:32px;font:900 12px/1 var(--sans);letter-spacing:.04em;padding:4px 6px 3px;border:2.5px solid currentColor;color:var(--c,var(--soft));transform:rotate(9deg);mix-blend-mode:multiply}
+.tag.sk{pointer-events:none}.tag.sk .sy,.tag.sk dd{color:transparent;background:rgba(90,60,30,.18)}
+.tag.new{animation:tagin .7s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes tagin{0%{opacity:0;transform:translateY(-40px) rotate(-12deg)}100%{opacity:1;transform:rotate(var(--r,0deg))}}
+/* toll canvas: explains the mechanic */
+.toll{margin-top:18px;border:1.5px solid var(--ink);background:var(--sheet)}
+.toll canvas{display:block;width:100%;height:260px}
+.toll .cap{border-top:1px solid var(--line);padding:12px 22px;font:400 13px var(--type);color:var(--mute)}
+/* cards: pointer light + tilt; buttons: ripple */
+.step{transform-style:preserve-3d;will-change:transform}
+.step:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--gx,50%) var(--gy,50%),rgba(20,168,84,.12),transparent 60%)}
+.step:hover:after{opacity:1}
+.btn{position:relative;overflow:hidden}
+.rip{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.32);transform:scale(0);animation:rip .6s ease-out forwards}
+.btn.ghost .rip{background:rgba(22,20,18,.12)}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+.cert.thud{animation:thud .34s ease-out}
+/* ring cursor (mouse only) */
+.ring{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:1.5px solid var(--ink);border-radius:50%;pointer-events:none;z-index:70;opacity:0;transition:width .2s,height .2s,margin .2s,background-color .2s,border-color .2s,opacity .2s}
+.fine .ring{opacity:.8}
+.ring.big{width:58px;height:58px;margin:-29px 0 0 -29px;background-color:rgba(20,168,84,.14);border-color:var(--stamp)}
+/* footer: a light sweeps across the last line */
+footer p.sweep{background:linear-gradient(100deg,var(--ink) 42%,var(--stamp) 50%,var(--ink) 58%) 100% 0/300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;transition:background-position 1.8s cubic-bezier(.2,.7,.2,1)}
+footer p.sweep.lit{background-position:0 0}
+@media (max-width:980px){.tags{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:560px){
+ .tags{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}
+ .tag{padding:30px 12px 12px}.tag .sy,.tag .nm{padding-right:0}.tag .sy{font-size:19px}.tag .st{position:static;display:inline-block;margin-top:8px;transform:rotate(-4deg)}
+ .tag dl{font-size:12px}
+ .bubble{left:auto;right:0;top:40px;max-width:180px;font-size:12.5px}
+ .toll canvas{height:230px}
+}
+@media (prefers-reduced-motion:reduce){
+ .hero .poster,.hero .sign,.hero .board,.chairw svg,.tag.new,.cert.thud,.hero .sign.swing{animation:none}
+ .fxw .w>span{transform:none;transition:none}
+ footer p.sweep{transition:none;background-position:0 0}
+}
