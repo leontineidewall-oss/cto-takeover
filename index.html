@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>cto · community takeover for dead coins</title>
+<meta name="description" content="The dev is gone. The holders took over. Paste any Solana coin and see what's left of it, then take it back.">
+<meta name="theme-color" content="#ece5d3">
+<meta property="og:type" content="website">
+<meta property="og:title" content="cto · the dev is gone">
+<meta property="og:description" content="The holders took over. Paste a coin, run the autopsy, print the poster.">
+<meta property="og:image" content="https://cto-takeover.vercel.app/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cto-takeover.vercel.app/og.jpg">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#ece5d3;--sheet:#f7f4ec;--ink:#161412;--mute:#6f6a60;--soft:#8f897d;--line:rgba(22,20,18,.14);--stamp:#14a854;--red:#c8372d;--amber:#c98a12;--kraft:#d6b887;
+--sans:Inter,system-ui,-apple-system,Segoe UI,sans-serif;--type:"Courier Prime","Courier New",ui-monospace,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{overflow-x:clip;background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--sans);-webkit-font-smoothing:antialiased;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .27 0 0 0 0 .2 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+::selection{background:rgba(20,168,84,.25)}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{width:min(1160px,100%);margin:0 auto;padding-left:24px;padding-right:24px}
+section{scroll-margin-top:84px}
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(236,229,211,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s}
+nav.solid{border-color:var(--line)}
+nav .wrap{display:flex;align-items:center;gap:14px;height:70px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 22px/1 var(--sans);letter-spacing:-.02em}
+.brand svg{width:40px;height:40px}
+nav .links{margin-left:auto;display:flex;gap:28px;font:500 14px var(--sans);color:var(--mute)}
+nav .links a{text-decoration:none}nav .links a:hover{color:var(--ink)}
+/* type */
+.pill{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 var(--type);letter-spacing:.14em;text-transform:uppercase;padding:9px 12px;border:1px solid var(--line);background:rgba(247,244,236,.7)}
+.pill:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--stamp))}
+h1,h2,h3{font-family:var(--sans);font-weight:900;letter-spacing:-.035em;line-height:.98}
+h1{font-size:clamp(56px,8.4vw,112px);margin:22px 0 22px}
+h2{font-size:clamp(38px,5vw,64px)}
+h3{font-size:24px;letter-spacing:-.02em;line-height:1.1}
+.lede{font-size:clamp(18px,1.6vw,21px);color:#3b3832;max-width:480px}
+.type{font-family:var(--type)}
+.kick{font:700 12px/1 var(--type);letter-spacing:.16em;color:var(--soft);text-transform:uppercase;display:block;margin-bottom:14px}
+/* buttons + input */
+.check{display:flex;gap:10px;margin-top:30px;max-width:540px}
+.check input{flex:1;min-width:0;height:56px;padding:0 16px;font:400 15px var(--type);color:var(--ink);background:var(--sheet);border:1.5px solid var(--ink);outline:none;border-radius:0}
+.check input:focus{box-shadow:4px 4px 0 var(--stamp)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:56px;padding:0 22px;font:700 15px var(--sans);background:var(--ink);color:var(--sheet);border:1.5px solid var(--ink);text-decoration:none;transition:transform .15s,box-shadow .15s;white-space:nowrap}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--stamp)}
+.btn:disabled{opacity:.55;cursor:wait;transform:none;box-shadow:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.note{margin-top:12px;font:400 13px var(--type);color:var(--soft)}
+.msg{margin-top:12px;font:700 14px var(--type);color:var(--red);min-height:0}
+.ca{margin-top:28px;display:flex;align-items:center;gap:12px;max-width:540px;border-top:1px dashed var(--line);padding-top:16px;font:400 13px var(--type);color:var(--mute)}
+.ca b{color:var(--ink);font-weight:700;letter-spacing:.1em}
+.ca code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.ca button{font:700 12px var(--type);letter-spacing:.1em;border:1px solid var(--ink);padding:6px 10px}
+.ca button:disabled{opacity:.35;cursor:default}
+/* hero */
+.hero{padding-top:56px;padding-bottom:90px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);gap:40px;align-items:center}
+.board{position:relative;height:560px}
+.poster{position:absolute;left:6%;top:10px;width:330px;background:var(--sheet);padding:26px 26px 22px;box-shadow:0 18px 40px -18px rgba(40,30,10,.35),0 2px 0 rgba(0,0,0,.04);transform:rotate(-2.5deg);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.poster:hover{transform:rotate(-1deg) translateY(-4px)}
+.poster .t{font:900 64px/1 var(--sans);letter-spacing:-.04em;text-align:center}
+.poster .ph{margin:16px 0 14px;height:170px;background:#e4e0d6;border:2px solid var(--ink);display:grid;place-items:end center;padding-bottom:10px}
+.poster .ph svg{width:120px;height:140px}
+.poster dl{font:400 15px/1.75 var(--type)}
+.poster dt{display:inline;font-weight:700}.poster dd{display:inline;margin-left:8px}.poster dd:after{content:"";display:block}
+.tape{position:absolute;width:86px;height:26px;background:rgba(240,234,214,.75);box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.sign{position:absolute;right:0;top:372px;width:230px;padding:22px 18px 18px;background:var(--kraft);border:1px solid rgba(120,90,50,.35);box-shadow:0 16px 30px -16px rgba(40,30,10,.45);transform:rotate(3.5deg);font:900 30px/1.04 var(--sans);letter-spacing:-.03em;text-align:center}
+.sign small{display:block;margin-top:12px;font:700 15px var(--type);letter-spacing:0;text-align:left}
+.pin{position:absolute;top:10px;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f19a92,#c22f28 55%,#7d1712)}
+.stamp{position:absolute;font:900 64px/1 var(--sans);letter-spacing:.02em;color:var(--stamp);border:6px solid var(--stamp);outline:2px solid var(--stamp);outline-offset:5px;padding:8px 20px 6px;transform:rotate(-12deg);mix-blend-mode:multiply;opacity:.92;pointer-events:none;
+-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 2.1'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 2.1'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.stamp.slam{animation:slam .55s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes slam{0%{opacity:0;transform:rotate(-20deg) scale(1.9)}60%{opacity:.95}100%{opacity:.92;transform:rotate(-12deg) scale(1)}}
+.hero .stamp{left:50%;top:170px;font-size:56px;padding:6px 16px 4px}
+/* sections */
+.sec{padding-top:110px;padding-bottom:20px}
+.head{margin-bottom:38px}
+.head p{margin-top:14px;color:var(--mute);font-size:18px;max-width:560px}
+/* autopsy */
+.cert{background:var(--sheet);border:1.5px solid var(--ink);box-shadow:8px 8px 0 rgba(22,20,18,.08);position:relative}
+.cert .top{display:flex;align-items:center;gap:16px;padding:22px 26px;border-bottom:1.5px solid var(--ink)}
+.cert .ava{width:56px;height:56px;border-radius:50%;background:#e4e0d6;border:1.5px solid var(--ink);overflow:hidden;display:grid;place-items:center;font:900 18px var(--sans);flex:none}
+.cert .ava img{width:100%;height:100%;object-fit:cover}
+.cert .nm{min-width:0}.cert .nm b{display:block;font:900 26px/1.1 var(--sans);letter-spacing:-.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cert .nm span{font:400 13px var(--type);color:var(--mute)}
+.cert .lab{margin-left:auto;font:700 12px var(--type);letter-spacing:.16em;color:var(--soft);text-align:right}
+.cgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.fact{padding:18px 26px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);min-width:0}
+.fact:nth-child(3n){border-right:0}
+.fact small{display:block;font:700 11px var(--type);letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:6px}
+.fact b{display:block;font:700 22px/1.2 var(--sans);letter-spacing:-.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fact.m b{font:700 17px/1.4 var(--type)}
+.verdict{padding:22px 26px;font:400 17px/1.6 var(--type);min-height:96px}
+.verdict b{font-weight:700}
+.side{border-left:1.5px solid var(--ink);padding:22px 26px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;position:relative;min-height:420px}
+.side canvas{width:100%;max-width:300px;aspect-ratio:3/4;background:#e9e5da;border:1px solid var(--line);align-self:center}
+.side .acts{display:flex;gap:10px;flex-wrap:wrap;align-self:center}
+.side .acts .btn{height:46px;padding:0 16px;font-size:14px}
+.stat-stamp{position:absolute;right:22px;top:-26px;font:900 34px/1 var(--sans);padding:6px 14px 4px;border:4px solid currentColor;transform:rotate(8deg);background:transparent;mix-blend-mode:multiply;color:var(--soft);opacity:0}
+.stat-stamp.on{opacity:.95;animation:slam2 .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes slam2{0%{opacity:0;transform:rotate(14deg) scale(1.8)}100%{opacity:.95;transform:rotate(8deg) scale(1)}}
+.loading .fact b,.loading .verdict{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.step{background:var(--sheet);border:1.5px solid var(--ink);padding:26px;position:relative;transition:transform .2s,box-shadow .2s}
+.step:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--stamp)}
+.step .n{font:900 52px/1 var(--sans);color:transparent;-webkit-text-stroke:1.5px var(--ink);letter-spacing:-.04em}
+.step h3{margin:18px 0 8px}
+.step p{color:var(--mute)}
+.rules{margin-top:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1.5px solid var(--ink);background:var(--sheet)}
+.rule{padding:18px 22px;border-right:1px solid var(--line);min-width:0}
+.rule:last-child{border-right:0}
+.rule b{display:block;font:900 30px/1 var(--sans);letter-spacing:-.03em}
+.rule span{display:block;margin-top:6px;font:400 13px var(--type);color:var(--mute)}
+.state{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px}
+/* limits */
+.tbl{border:1.5px solid var(--ink);background:var(--sheet)}
+.tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-bottom:1px solid var(--line)}
+.tr:last-child{border-bottom:0}
+.tr>div{padding:18px 24px;min-width:0}
+.tr>div:first-child{border-right:1px solid var(--line);font:700 18px/1.35 var(--sans)}
+.tr>div:last-child{font:400 15px/1.5 var(--type);color:#3b3832}
+.tr.th>div{font:700 11px var(--type)!important;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)!important;padding-top:12px;padding-bottom:12px}
+/* token */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1.5px solid var(--ink);background:var(--sheet)}
+.stats div{padding:20px 22px;border-right:1px solid var(--line);min-width:0}
+.stats div:last-child{border-right:0}
+.stats small{display:block;font:700 11px var(--type);letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:8px}
+.stats b{display:block;font:900 30px/1 var(--sans);letter-spacing:-.03em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.src{margin-top:12px;font:400 13px var(--type);color:var(--soft)}
+/* faq */
+.faq details{border-top:1.5px solid var(--ink)}
+.faq details:last-child{border-bottom:1.5px solid var(--ink)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font:700 21px/1.3 var(--sans);letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";font:400 26px/1 var(--type);transition:transform .25s}
+.faq details[open] summary:after{transform:rotate(45deg)}
+.faq p{padding:0 0 22px;color:#3b3832;max-width:720px;font:400 16px/1.6 var(--type)}
+/* footer */
+footer{padding-top:120px;padding-bottom:44px}
+footer .wrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:40px;align-items:center}
+footer .seal{width:170px;height:170px;transform:rotate(-8deg)}
+footer p{font:900 clamp(30px,4vw,48px)/1.05 var(--sans);letter-spacing:-.03em}
+.foot{grid-column:1/-1;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px dashed var(--line);padding-top:18px;font:400 13px var(--type);color:var(--soft)}
+/* motion */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.vis{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.stamp.slam,.stat-stamp.on{animation:none}html{scroll-behavior:auto}}
+/* responsive */
+@media (max-width:980px){
+ .hero .wrap{grid-template-columns:minmax(0,1fr)}
+ .board{height:500px;max-width:520px;width:100%;margin:0 auto}
+ .cgrid{grid-template-columns:minmax(0,1fr)}
+ .side{border-left:0;border-top:1.5px solid var(--ink)}
+ .steps{grid-template-columns:minmax(0,1fr)}
+ .rules,.stats{grid-template-columns:1fr 1fr}.rule:nth-child(2),.stats div:nth-child(2){border-right:0}.rule:nth-child(-n+2),.stats div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+ nav .links{display:none}
+}
+@media (max-width:560px){
+ .wrap{padding-left:16px;padding-right:16px}
+ .check{flex-direction:column}.check input{flex:none;width:100%}.check .btn{width:100%}
+ .board{height:440px}
+ .poster{width:250px;left:0;padding:18px}.poster .t{font-size:48px}.poster .ph{height:120px}.poster .ph svg{width:84px;height:100px}.poster dl{font-size:12.5px}
+ .sign{width:160px;font-size:21px;top:300px;padding:16px 12px 12px}.sign small{font-size:12px}
+ .hero .stamp{font-size:36px;left:50%;top:120px;border-width:4px;outline-offset:3px}
+ .facts{grid-template-columns:1fr 1fr}.fact:nth-child(3n){border-right:1px solid var(--line)}.fact:nth-child(2n){border-right:0}.fact:last-child{grid-column:1/-1}
+ .tr{grid-template-columns:minmax(0,1fr)}.tr>div:first-child{border-right:0;padding-bottom:4px}.tr>div:last-child{padding-top:0}.tr.th{display:none}
+ .cert .lab{display:none}
+ footer .wrap{grid-template-columns:minmax(0,1fr)}footer .seal{width:120px;height:120px}
+}
+</style>
+</head>
+<body>
+<nav id="nav"><div class="wrap">
+  <a class="brand" href="#top" aria-label="cto home"><span data-seal></span>cto</a>
+  <div class="links"><a href="#autopsy">Autopsy</a><a href="#how">How it works</a><a href="#token">$CTO</a><a href="#faq">FAQ</a></div>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <div>
+    <span class="pill">Community takeover</span>
+    <h1>The dev<br>is gone.</h1>
+    <p class="lede">The holders took over. Paste any Solana coin and see what&rsquo;s left of it.</p>
+    <form class="check" id="checkform" autocomplete="off"><input id="mint" placeholder="Paste a coin's CA" spellcheck="false" aria-label="Token address"><button class="btn" id="checkbtn" type="submit">Run the autopsy</button></form>
+    <div class="msg" id="msg" role="status"></div>
+    <p class="note">Free. Reads public data only. No wallet needed.</p>
+    <div class="ca"><b>$CTO</b><code id="ca">&mdash;</code><button id="cacopy" disabled>COPY</button></div>
+  </div>
+  <div class="board rv" aria-hidden="true">
+    <div class="poster" id="poster">
+      <i class="tape" style="left:28px;top:-12px;transform:rotate(-8deg)"></i><i class="tape" style="right:28px;top:-10px;transform:rotate(7deg)"></i>
+      <div class="t">MISSING</div>
+      <div class="ph" data-chair></div>
+      <dl><dt>NAME:</dt><dd>the dev</dd><dt>LAST SEEN:</dt><dd>selling the top</dd><dt>WALLET:</dt><dd>empty</dd><dt>IF FOUND:</dt><dd>don&rsquo;t bother.</dd></dl>
+    </div>
+    <div class="stamp slam">CTO&rsquo;D</div>
+    <div class="sign"><i class="pin" style="left:16px"></i><i class="pin" style="right:16px"></i>UNDER<br>NEW<br>MANAGEMENT<small>&mdash; the holders</small></div>
+  </div>
+</div></header>
+
+<section class="sec" id="autopsy"><div class="wrap">
+  <div class="head rv"><span class="kick">01 &middot; The autopsy</span><h2>What&rsquo;s left of it.</h2><p>Market, holders and the dev, read live from the chain.</p></div>
+  <div class="cert rv" id="cert">
+    <span class="stat-stamp" id="statstamp">&mdash;</span>
+    <div class="top"><div class="ava" id="ava">?</div><div class="nm"><b id="cname">No coin yet</b><span id="cmint">Paste a CA above.</span></div><div class="lab">CERTIFICATE<br>OF CONDITION</div></div>
+    <div class="cgrid">
+      <div>
+        <div class="facts" id="facts">
+          <div class="fact"><small>Market cap</small><b data-k="mcap">&mdash;</b></div>
+          <div class="fact"><small>24h volume</small><b data-k="vol24">&mdash;</b></div>
+          <div class="fact"><small>24h trades</small><b data-k="trades24">&mdash;</b></div>
+          <div class="fact"><small>Liquidity</small><b data-k="liq">&mdash;</b></div>
+          <div class="fact"><small>Age</small><b data-k="age">&mdash;</b></div>
+          <div class="fact"><small>Top 10 hold</small><b data-k="top10">&mdash;</b></div>
+          <div class="fact m"><small>Dev wallet</small><b data-k="dev">&mdash;</b></div>
+          <div class="fact"><small>Dev holds</small><b data-k="devPct">&mdash;</b></div>
+          <div class="fact"><small>Dev last seen</small><b data-k="devLast">&mdash;</b></div>
+        </div>
+        <p class="verdict" id="verdict">Run an autopsy to see the verdict.</p>
+      </div>
+      <div class="side">
+        <span class="kick" style="margin:0">The poster</span>
+        <canvas id="pcan" width="900" height="1200" aria-label="Missing poster for this coin's dev"></canvas>
+        <div class="acts"><button class="btn" id="dl" disabled>Download poster</button><button class="btn ghost" id="cp" disabled>Copy caption</button></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="how"><div class="wrap">
+  <div class="head rv"><span class="kick">02 &middot; How a CTO works</span><h2>Take it back in three moves.</h2></div>
+  <div class="steps">
+    <div class="step rv"><div class="n">01</div><h3>Paste the CA</h3><p>Run the autopsy. Check the dev is really gone.</p></div>
+    <div class="step rv"><div class="n">02</div><h3>Hook it</h3><p>Trades routed through cto pay a small toll that buys the coin and burns it.</p></div>
+    <div class="step rv"><div class="n">03</div><h3>Hand it over</h3><p>The top holders form a council and decide what&rsquo;s next.</p></div>
+  </div>
+  <div class="rules rv">
+    <div class="rule"><b>0.5%</b><span>toll on routed trades</span></div>
+    <div class="rule"><b>100%</b><span>of the toll buys + burns</span></div>
+    <div class="rule"><b>5</b><span>council seats</span></div>
+    <div class="rule"><b>XP</b><span>hold time &times; size</span></div>
+  </div>
+  <div class="state rv"><span class="pill" style="--c:var(--stamp)">Autopsy &middot; live</span><span class="pill" style="--c:var(--stamp)">Poster maker &middot; live</span><span class="pill" style="--c:var(--amber)">Hook layer &middot; in development</span><span class="pill" style="--c:var(--soft)">$CTO &middot; at launch</span></div>
+</div></section>
+
+<section class="sec" id="limits"><div class="wrap">
+  <div class="head rv"><span class="kick">03 &middot; Honest limits</span><h2>What it can&rsquo;t do.</h2></div>
+  <div class="tbl rv">
+    <div class="tr th"><div>It can&rsquo;t</div><div>So</div></div>
+    <div class="tr"><div>Take the creator fees back.</div><div>They still go to the old dev. The toll is separate.</div></div>
+    <div class="tr"><div>Stop direct trades on Pump.</div><div>Only routed trades pay the toll and earn XP.</div></div>
+    <div class="tr"><div>Revive a coin nobody holds.</div><div>A takeover needs holders who show up.</div></div>
+    <div class="tr"><div>Promise it pumps.</div><div>A CTO can still die. Most do.</div></div>
+  </div>
+</div></section>
+
+<section class="sec" id="token"><div class="wrap">
+  <div class="head rv"><span class="kick">04 &middot; $CTO</span><h2>The coin of the takeover.</h2><p>The coin behind cto.</p></div>
+  <div class="stats rv"><div><small>Price</small><b data-m="price">&mdash;</b></div><div><small>Market cap</small><b data-m="mcap">&mdash;</b></div><div><small>24h volume</small><b data-m="vol">&mdash;</b></div><div><small>Liquidity</small><b data-m="liq">&mdash;</b></div></div>
+  <p class="src" id="msrc">Live once the contract is posted. A dash means no data, never zero.</p>
+</div></section>
+
+<section class="sec" id="faq"><div class="wrap">
+  <div class="head rv"><span class="kick">05 &middot; Questions</span><h2>Asked at the wake.</h2></div>
+  <div class="faq rv">
+    <details><summary>What counts as dead?</summary><p>Under $100 traded and under 10 trades in 24 hours. Dying is under $5K volume or a $10K market cap.</p></details>
+    <details><summary>How do you know the dev left?</summary><p>We read the coin&rsquo;s creator from pump.fun, then check that wallet&rsquo;s balance and its last transaction on chain.</p></details>
+    <details><summary>Do you store what I paste?</summary><p>No. The autopsy reads public data and shows it to you. Nothing is saved.</p></details>
+    <details><summary>When can I hook a coin?</summary><p>When the hook layer says live above. The autopsy and the poster work today.</p></details>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span class="seal" data-seal data-big></span>
+  <p>The dev left.<br>The holders didn&rsquo;t.</p>
+  <div class="foot"><span>cto &middot; community takeover for dead coins</span><span>Not financial advice. Market data is third-party, provided as-is.</span></div>
+</div></footer>
+<script>
+(function () {
+"use strict";
+var $ = function (s, r) { return (r || document).querySelector(s); };
+var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+var B58 = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+var DASH = "—";
+var INK = "#161412", GREEN = "#14a854", RED = "#c8372d", AMBER = "#c98a12", SOFT = "#8f897d";
+
+/* ---------- art: seal + chair ---------- */
+var sealN = 0;
+function seal() {
+  var id = "sp" + (++sealN), t = "COMMUNITY TAKEOVER ✦ COMMUNITY TAKEOVER ✦ ";
+  return '<svg viewBox="0 0 200 200" role="img" aria-label="cto seal"><g fill="none" stroke="' + GREEN + '">' +
+    '<circle cx="100" cy="100" r="93" stroke-width="7"/><circle cx="100" cy="100" r="64" stroke-width="3"/></g>' +
+    '<defs><path id="' + id + '" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>' +
+    '<text fill="' + GREEN + '" font-family="Courier Prime,Courier New,monospace" font-weight="700" font-size="17.6" letter-spacing="1.2"><textPath href="#' + id + '">' + t + '</textPath></text>' +
+    '<text x="100" y="116" text-anchor="middle" fill="' + GREEN + '" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="50" letter-spacing="-2">cto</text></svg>';
+}
+var CHAIR = [
+  { d: "M42 8h36a12 12 0 0 1 12 12v32a12 12 0 0 1-12 12H42a12 12 0 0 1-12-12V20A12 12 0 0 1 42 8z", f: 1 },
+  { d: "M55 63h10v10H55z", f: 1 },
+  { d: "M22 72h76a6 6 0 0 1 0 12H22a6 6 0 0 1 0-12z", f: 1 },
+  { d: "M18 56h12M90 56h12M24 56v16M96 56v16", s: 5 },
+  { d: "M56 84h8v24h-8z", f: 1 },
+  { d: "M60 108L20 120M60 108L100 120M60 108L42 128M60 108L78 128", s: 5 },
+  { d: "M14 122a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM94 122a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM36 130a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM72 130a6 6 0 1 0 12 0a6 6 0 1 0-12 0z", f: 1 }
+];
+function chairSvg() {
+  return '<svg viewBox="0 0 120 140" aria-hidden="true">' + CHAIR.map(function (p) {
+    return p.f ? '<path d="' + p.d + '" fill="' + INK + '"/>' : '<path d="' + p.d + '" fill="none" stroke="' + INK + '" stroke-width="' + p.s + '" stroke-linecap="round"/>';
+  }).join("") + '</svg>';
+}
+$$("[data-seal]").forEach(function (el) { el.innerHTML = seal(); });
+$$("[data-chair]").forEach(function (el) { el.innerHTML = chairSvg(); });
+
+/* ---------- nav + reveal ---------- */
+var nav = $("#nav");
+function onScroll() { nav.classList.toggle("solid", scrollY > 10); }
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
+var io = "IntersectionObserver" in window ? new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("vis"); io.unobserve(e.target); } });
+}, { rootMargin: "0px 0px -6% 0px" }) : null;
+$$(".rv").forEach(function (el) { if (io) io.observe(el); else el.classList.add("vis"); });
+function sweep() { $$(".rv:not(.vis)").forEach(function (el) { if (el.getBoundingClientRect().top < innerHeight * 0.95) el.classList.add("vis"); }); }
+var swT = 0;
+addEventListener("load", sweep);
+addEventListener("scroll", function () { if (swT) return; swT = setTimeout(function () { swT = 0; sweep(); }, 180); }, { passive: true });
+addEventListener("hashchange", function () { setTimeout(sweep, 60); });
+setTimeout(sweep, 400);
+
+/* ---------- formatting ---------- */
+function money(v) {
+  if (v == null || !isFinite(v)) return DASH;
+  var a = Math.abs(v);
+  if (a >= 1e9) return "$" + (v / 1e9).toFixed(2) + "B";
+  if (a >= 1e6) return "$" + (v / 1e6).toFixed(2) + "M";
+  if (a >= 1e3) return "$" + (v / 1e3).toFixed(1) + "K";
+  if (a >= 1) return "$" + v.toFixed(0);
+  if (a === 0) return "$0";
+  return "$" + v.toPrecision(3);
+}
+function price(v) {
+  if (v == null || !isFinite(v)) return DASH;
+  if (v >= 1) return "$" + v.toFixed(v >= 100 ? 0 : 2);
+  if (v === 0) return "$0";
+  var s = v.toPrecision(3), m = /^0\.(0+)(\d+)$/.exec(Number(s).toFixed(20).replace(/0+$/, ""));
+  if (m && m[1].length >= 4) return "$0.0" + String(m[1].length).split("").map(function (c) { return "₀₁₂₃₄₅₆₇₈₉"[+c]; }).join("") + m[2].slice(0, 3);
+  return "$" + Number(s).toString();
+}
+function pct(v) {
+  if (v == null || !isFinite(v)) return DASH;
+  if (v === 0) return "0%";
+  if (v < 0.01) return "<0.01%";
+  return (v < 10 ? v.toFixed(2) : v.toFixed(1)) + "%";
+}
+function count(v) { return v == null || !isFinite(v) ? DASH : Math.round(v).toLocaleString("en-US"); }
+function span(sec) {
+  var d = Math.max(0, Date.now() / 1000 - sec), u = [[31536000, "year"], [2592000, "month"], [86400, "day"], [3600, "hour"], [60, "minute"]];
+  for (var i = 0; i < u.length; i++) if (d >= u[i][0]) { var n = Math.floor(d / u[i][0]); return n + " " + u[i][1] + (n > 1 ? "s" : ""); }
+  return "under a minute";
+}
+function age(sec) { return sec ? span(sec) : DASH; }
+function ago(sec) { return sec ? span(sec) + " ago" : DASH; }
+function day(sec) { return new Date(sec * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); }
+function short(a) { return a ? a.slice(0, 4) + "…" + a.slice(-4) : DASH; }
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+function clean(s, n) { return s ? String(s).replace(/[\u0000-\u001f]/g, "").trim().slice(0, n || 32) : ""; }
+
+/* ---------- copy ---------- */
+function copy(text, btn, label) {
+  function done(ok) { btn.textContent = ok ? "COPIED" : "COPY FAILED"; setTimeout(function () { btn.textContent = label; }, 1400); }
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallback(text)); });
+  else done(fallback(text));
+}
+function fallback(text) {
+  try { var t = document.createElement("textarea"); t.value = text; t.style.position = "fixed"; t.style.opacity = "0"; document.body.appendChild(t); t.select(); var ok = document.execCommand("copy"); t.remove(); return ok; } catch (e) { return false; }
+}
+
+/* ---------- poster (canvas) ---------- */
+var can = $("#pcan"), ctx = can.getContext("2d");
+function rng(seed) { var s = 0; for (var i = 0; i < seed.length; i++) s = (s * 31 + seed.charCodeAt(i)) >>> 0; s = s || 1; return function () { s ^= s << 13; s >>>= 0; s ^= s >> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; }
+function fit(c, text, font, size, max) { var s = size; do { c.font = font.replace("@", s); s -= 2; } while (c.measureText(text).width > max && s > 10); return s + 2; }
+function stampCanvas(text, color, seed) {
+  var c = document.createElement("canvas"), x = c.getContext("2d");
+  x.font = "900 120px Inter, system-ui, sans-serif";
+  var w = Math.ceil(x.measureText(text).width) + 110, h = 210; c.width = w; c.height = h;
+  x.strokeStyle = color; x.fillStyle = color;
+  x.lineWidth = 12; x.strokeRect(22, 22, w - 44, h - 44);
+  x.lineWidth = 4; x.strokeRect(8, 8, w - 16, h - 16);
+  x.font = "900 120px Inter, system-ui, sans-serif"; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(text, w / 2, h / 2 + 8);
+  var r = rng(seed); x.globalCompositeOperation = "destination-out";
+  for (var i = 0; i < 900; i++) { x.globalAlpha = 0.25 + r() * 0.75; x.beginPath(); x.arc(r() * w, r() * h, r() * 2.6 + 0.4, 0, 7); x.fill(); }
+  for (var j = 0; j < 14; j++) { x.globalAlpha = 0.35; x.fillRect(r() * w, r() * h, r() * 60 + 10, r() * 2 + 1); }
+  return c;
+}
+function poster(d) {
+  var W = 900, H = 1200, sym = d && d.symbol ? "$" + clean(d.symbol, 14).toUpperCase() : null, r = rng((d && d.mint) || "cto");
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
+  ctx.fillStyle = "#ece5d3"; ctx.fillRect(0, 0, W, H);
+  ctx.save(); ctx.shadowColor = "rgba(40,30,10,.28)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 18;
+  ctx.fillStyle = "#f7f4ec"; ctx.fillRect(60, 60, W - 120, H - 120); ctx.restore();
+  for (var i = 0; i < 2600; i++) { ctx.fillStyle = "rgba(70,60,40," + (r() * 0.05).toFixed(3) + ")"; ctx.fillRect(60 + r() * (W - 120), 60 + r() * (H - 120), 2, 2); }
+  ctx.save(); ctx.fillStyle = "rgba(236,228,205,.85)";
+  [[150, 62, -0.14], [W - 150, 62, 0.12]].forEach(function (t) { ctx.save(); ctx.translate(t[0], t[1]); ctx.rotate(t[2]); ctx.fillRect(-70, -20, 140, 40); ctx.restore(); });
+  ctx.restore();
+  ctx.fillStyle = INK; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+  fit(ctx, "MISSING", "900 @px Inter, system-ui, sans-serif", 190, W - 220); ctx.fillText("MISSING", W / 2, 260);
+  var bx = 130, by = 300, bw = W - 260, bh = 380;
+  ctx.fillStyle = "#e4e0d6"; ctx.fillRect(bx, by, bw, bh); ctx.lineWidth = 6; ctx.strokeStyle = INK; ctx.strokeRect(bx, by, bw, bh);
+  ctx.save(); ctx.translate(360 - 60 * 2.1, by + bh - 140 * 2.1 - 22); ctx.scale(2.1, 2.1);
+  CHAIR.forEach(function (p) {
+    var path = new Path2D(p.d);
+    if (p.f) { ctx.fillStyle = INK; ctx.fill(path); } else { ctx.strokeStyle = INK; ctx.lineWidth = p.s; ctx.lineCap = "round"; ctx.stroke(path); }
+  });
+  ctx.restore();
+  var lines = [
+    ["NAME:", sym ? "the dev of " + sym : "the dev"],
+    ["LAST SEEN:", d ? (d.devLast ? day(d.devLast) : DASH) : "selling the top"],
+    ["WALLET:", d ? (d.devPct == null ? DASH : d.devLeft ? "empty" : "holds " + pct(d.devPct)) : "empty"],
+    ["IF FOUND:", d && d.devLeft === false ? "they never left." : "don’t bother."]
+  ];
+  ctx.textAlign = "left"; var y = 768;
+  lines.forEach(function (l) {
+    ctx.font = "700 40px 'Courier Prime', 'Courier New', monospace"; ctx.fillStyle = INK; ctx.fillText(l[0], 130, y);
+    var lw = ctx.measureText(l[0] + " ").width;
+    fit(ctx, l[1], "400 @px 'Courier Prime', 'Courier New', monospace", 40, W - 260 - lw); ctx.fillText(l[1], 130 + lw, y);
+    y += 64;
+  });
+  ctx.strokeStyle = "rgba(22,20,18,.22)"; ctx.lineWidth = 2; ctx.setLineDash([8, 8]); ctx.beginPath(); ctx.moveTo(130, 1050); ctx.lineTo(W - 130, 1050); ctx.stroke(); ctx.setLineDash([]);
+  ctx.font = "400 26px 'Courier Prime', 'Courier New', monospace"; ctx.fillStyle = SOFT;
+  ctx.fillText(d && d.mint ? "CA " + short(d.mint) : "community takeover", 130, 1092);
+  ctx.textAlign = "right"; ctx.fillText(location.host || "cto", W - 130, 1092);
+  var st = stampText(d), sc = stampCanvas(st[0], st[1], (d && d.mint) || "cto"), sw = Math.min(440, sc.width * 0.62), sh = sc.height * (sw / sc.width);
+  ctx.save(); ctx.translate(W - 268, 640); ctx.rotate(-0.16); ctx.globalAlpha = 0.9; ctx.globalCompositeOperation = "multiply"; ctx.drawImage(sc, -sw / 2, -sh / 2, sw, sh); ctx.restore();
+}
+function stampText(d) {
+  if (!d) return ["CTO’D", GREEN];
+  if (d.devLeft === false) return ["DEV STILL HERE", AMBER];
+  if (d.status && d.status.code === "unknown") return ["NO MARKET", SOFT];
+  if (d.status && d.status.code === "dead") return ["DEAD", RED];
+  return ["CTO’D", GREEN];
+}
+var fontsReady = document.fonts && document.fonts.load ? Promise.all([
+  document.fonts.load("900 100px Inter"), document.fonts.load("700 40px 'Courier Prime'"), document.fonts.load("400 40px 'Courier Prime'")
+]).catch(function () {}) : Promise.resolve();
+var timeout = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+function drawPoster(d) { Promise.race([fontsReady, timeout(1500)]).then(function () { poster(d); }); }
+drawPoster(null);
+
+/* ---------- autopsy ---------- */
+var form = $("#checkform"), inp = $("#mint"), btn = $("#checkbtn"), msg = $("#msg"), cert = $("#cert"), sstamp = $("#statstamp");
+var dl = $("#dl"), cp = $("#cp"), last = null, busy = false;
+var COLORS = { alive: GREEN, dying: AMBER, dead: RED, unknown: SOFT };
+function setFacts(d) {
+  var v = d ? {
+    mcap: money(d.mcap), vol24: money(d.vol24), trades24: count(d.trades24), liq: money(d.liq), age: age(d.created),
+    top10: pct(d.top10), dev: short(d.dev), devPct: d.devPct == null ? DASH : pct(d.devPct), devLast: ago(d.devLast)
+  } : {};
+  $$("[data-k]").forEach(function (el) { var k = el.getAttribute("data-k"); el.textContent = v[k] || DASH; el.title = k === "dev" && d && d.dev ? d.dev : ""; });
+}
+function verdict(d) {
+  var s = d.status || { code: "unknown", word: "Unknown", why: "" }, out = [];
+  out.push("<b>" + esc(s.word) + ".</b> " + esc(s.why));
+  if (!d.dev) out.push("Couldn’t find the creator on pump.fun, so the dev can’t be checked.");
+  else if (d.devPct == null) out.push("Found the creator, but couldn’t read their balance.");
+  else if (d.devLeft) out.push("The dev holds nothing" + (d.devLast ? " and was last seen " + esc(ago(d.devLast)) : "") + ". They’re gone.");
+  else out.push("The dev still holds " + esc(pct(d.devPct)) + (d.devLast ? ", last active " + esc(ago(d.devLast)) : "") + ".");
+  if (d.top10 != null) out.push("Top 10 wallets hold " + esc(pct(d.top10)) + ".");
+  var c = s.code, gone = d.devLeft === true;
+  if (d.devLeft === false) out.push("<b>Not a CTO.</b> The dev is still here.");
+  else if (gone && c === "dead") out.push("<b>Textbook CTO.</b> Needs holders who show up.");
+  else if (gone && c === "dying") out.push("<b>CTO candidate.</b> There’s still a pulse.");
+  else if (gone && c === "alive") out.push("<b>Already a community coin.</b> The holders are running it.");
+  return out.join(" ");
+}
+function render(d) {
+  last = d;
+  var nm = clean(d.name, 40) || "Unnamed coin", sy = clean(d.symbol, 14);
+  $("#cname").textContent = nm + (sy ? " · $" + sy.toUpperCase() : "");
+  $("#cmint").textContent = short(d.mint) + (d.graduated === true ? " · graduated" : d.graduated === false ? " · on the curve" : "") + (d.dex ? " · " + clean(d.dex, 20) : "");
+  var ava = $("#ava"), ini = (sy || nm || "?").replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase() || "?";
+  ava.textContent = ini;
+  if (d.image) { var im = new Image(); im.alt = ""; im.referrerPolicy = "no-referrer"; im.onload = function () { if (last === d) { ava.textContent = ""; ava.appendChild(im); } }; im.src = d.image; }
+  setFacts(d);
+  var code = (d.status && d.status.code) || "unknown";
+  sstamp.textContent = ((d.status && d.status.word) || "Unknown").toUpperCase();
+  sstamp.style.color = COLORS[code] || SOFT;
+  sstamp.classList.remove("on"); void sstamp.offsetWidth; sstamp.classList.add("on");
+  $("#verdict").innerHTML = verdict(d);
+  drawPoster(d); dl.disabled = false; cp.disabled = false;
+}
+function reset() {
+  last = null; setFacts(null); sstamp.classList.remove("on"); sstamp.textContent = DASH;
+  $("#cname").textContent = "No coin yet"; $("#cmint").textContent = "Paste a CA above."; $("#ava").textContent = "?";
+  $("#verdict").textContent = "Run an autopsy to see the verdict.";
+  dl.disabled = true; cp.disabled = true; drawPoster(null);
+}
+function fetchJson(url, ms) {
+  var ctl = "AbortController" in window ? new AbortController() : null, t = setTimeout(function () { if (ctl) ctl.abort(); }, ms || 20000);
+  return fetch(url, ctl ? { signal: ctl.signal } : {}).then(function (r) {
+    return r.json().catch(function () { return {}; }).then(function (j) { clearTimeout(t); return { ok: r.ok, j: j }; });
+  }, function (e) { clearTimeout(t); throw e; });
+}
+function run(mint, scroll) {
+  if (busy) return;
+  msg.textContent = "";
+  if (!B58.test(mint)) { msg.textContent = "That doesn’t look like a Solana token address."; inp.focus(); return; }
+  busy = true; btn.disabled = true; btn.textContent = "Reading the chain…"; cert.classList.add("loading"); reset();
+  $("#cname").textContent = "Reading…"; $("#cmint").textContent = short(mint);
+  if (scroll) { var a = $("#autopsy"); if (a) a.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }
+  try { history.replaceState(null, "", "?ca=" + mint + "#autopsy"); } catch (e) {}
+  fetchJson("/api/autopsy?mint=" + encodeURIComponent(mint)).then(function (res) {
+    if (!res.ok || !res.j || res.j.error || !res.j.mint) {
+      reset(); $("#cmint").textContent = short(mint);
+      msg.textContent = (res.j && res.j.error) ? cap(res.j.error) + "." : "The autopsy failed. Try again in a moment.";
+      $("#verdict").textContent = "No verdict. Nothing could be read, so nothing is shown.";
+      return;
+    }
+    render(res.j);
+  }, function () {
+    reset(); $("#cmint").textContent = short(mint);
+    msg.textContent = "Couldn’t reach the autopsy right now. Try again in a moment.";
+  }).then(function () { busy = false; btn.disabled = false; btn.textContent = "Run the autopsy"; cert.classList.remove("loading"); sweep(); });
+}
+function cap(s) { s = String(s); return s.charAt(0).toUpperCase() + s.slice(1); }
+form.addEventListener("submit", function (e) { e.preventDefault(); run(inp.value.trim(), true); });
+inp.addEventListener("input", function () { if (msg.textContent) msg.textContent = ""; });
+dl.addEventListener("click", function () {
+  if (!last) return;
+  var name = "cto-" + ((clean(last.symbol, 14) || "coin").toLowerCase().replace(/[^a-z0-9]+/g, "") || "coin") + "-missing.png";
+  function save(href) { var a = document.createElement("a"); a.href = href; a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
+  if (can.toBlob) can.toBlob(function (b) { if (!b) return save(can.toDataURL("image/png")); var u = URL.createObjectURL(b); save(u); setTimeout(function () { URL.revokeObjectURL(u); }, 4000); }, "image/png");
+  else save(can.toDataURL("image/png"));
+});
+cp.addEventListener("click", function () {
+  if (!last) return;
+  var sy = clean(last.symbol, 14), who = sy ? "the dev of $" + sy.toUpperCase() : "the dev";
+  var t = "MISSING: " + who + ". Last seen " + (last.devLast ? day(last.devLast) : DASH) + ". " +
+    (last.devLeft ? "Wallet empty. The holders are taking over." : last.devLeft === false ? "Still holds " + pct(last.devPct) + "." : "") +
+    " Run your own autopsy: " + location.origin + "/?ca=" + last.mint;
+  copy(t.replace(/\s+/g, " ").trim(), cp, "Copy caption");
+});
+var q = (location.search.match(/[?&]ca=([^&#]+)/) || [])[1];
+if (q) { try { q = decodeURIComponent(q); } catch (e) { q = ""; } if (B58.test(q)) { inp.value = q; run(q, false); } }
+
+/* ---------- $CTO: config + market ---------- */
+var caEl = $("#ca"), caBtn = $("#cacopy"), mint = null, src = $("#msrc");
+caBtn.addEventListener("click", function () { if (mint) copy(mint, caBtn, "COPY"); });
+function setM(p) { $$("[data-m]").forEach(function (el) { var k = el.getAttribute("data-m"); el.textContent = p ? (k === "price" ? price(p.price) : money(p[k])) : DASH; }); }
+function market() {
+  fetchJson("/api/market", 12000).then(function (r) {
+    var j = r.j || {};
+    if (!r.ok || j.error) { setM(null); src.textContent = "Market data unavailable right now. A dash means no data, never zero."; return; }
+    if (!j.live) { setM(null); src.textContent = "Live once the contract is posted. A dash means no data, never zero."; return; }
+    if (!j.pair) { setM(null); src.textContent = "No trading pair yet. A dash means no data, never zero."; return; }
+    setM(j.pair);
+    src.textContent = "Live from DexScreener" + (j.pair.dex ? " · " + clean(j.pair.dex, 20) : "") + " · updated " + new Date(j.t || Date.now()).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+  }, function () { setM(null); src.textContent = "Market data unavailable right now. A dash means no data, never zero."; });
+}
+fetchJson("/api/config", 10000).then(function (r) {
+  var m = r.j && r.j.mint;
+  if (r.ok && m && B58.test(m)) { mint = m; caEl.textContent = m; caEl.title = m; caBtn.disabled = false; }
+}, function () {}).then(function () { market(); setInterval(market, 60000); });
+})();
+
+</script>
+</body>
+</html>
