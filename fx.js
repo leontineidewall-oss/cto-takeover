@@ -248,7 +248,7 @@ function morgueFetch() {
 if (tagsEl) {
   skeleton();
   var mio = "IntersectionObserver" in window ? new IntersectionObserver(function (es) {
-    if (es[0].isIntersecting) { mio.disconnect(); morgueFetch(); setInterval(morgueFetch, 60000); }
+    if (es[0].isIntersecting) { mio.disconnect(); morgueFetch(); setInterval(morgueFetch, 60000); document.addEventListener("visibilitychange", function () { if (!document.hidden) morgueFetch(); }); }
   }, { rootMargin: "400px 0px" }) : null;
   if (mio) mio.observe(tagsEl); else morgueFetch();
 }
