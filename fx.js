@@ -199,7 +199,7 @@ function age(sec) {
   if (d >= 3600) return Math.floor(d / 3600) + "h";
   return Math.max(1, Math.floor(d / 60)) + "m";
 }
-function clip(s, n) { return s ? String(s).replace(/[\u0000-\u001f]/g, "").trim().slice(0, n) : ""; }
+function clip(s, n) { return s ? String(s).replace(/[\u0000-\u001f]/g, "").trim().replace(/^\$+\s*/, "").slice(0, n) : ""; }
 function skeleton() {
   if (!tagsEl) return;
   tagsEl.innerHTML = "";

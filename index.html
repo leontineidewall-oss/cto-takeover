@@ -373,7 +373,7 @@ function ago(sec) { return sec ? span(sec) + " ago" : DASH; }
 function day(sec) { return new Date(sec * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); }
 function short(a) { return a ? a.slice(0, 4) + "…" + a.slice(-4) : DASH; }
 function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
-function clean(s, n) { return s ? String(s).replace(/[\u0000-\u001f]/g, "").trim().slice(0, n || 32) : ""; }
+function clean(s, n) { return s ? String(s).replace(/[\u0000-\u001f]/g, "").trim().replace(/^\$+\s*/, "").slice(0, n || 32) : ""; }
 
 /* ---------- copy ---------- */
 function copy(text, btn, label) {
