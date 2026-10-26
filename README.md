@@ -9,4 +9,4 @@ Community takeover for dead coins. Paste any Solana coin, run the autopsy (marke
 ## Env (set in Vercel)
 
 - CTO_MINT: the $CTO contract address. Until set, the site shows dashes.
-- RPC_URL (optional): a Solana RPC endpoint. Defaults to the public mainnet RPC.
+- RPC_URL: a Solana RPC endpoint (a free Helius or QuickNode key works). The public RPC blocks holder and dev lookups, so those show dashes until this is set.

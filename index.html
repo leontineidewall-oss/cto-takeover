@@ -469,7 +469,8 @@ function setFacts(d) {
 function verdict(d) {
   var s = d.status || { code: "unknown", word: "Unknown", why: "" }, out = [];
   out.push("<b>" + esc(s.word) + ".</b> " + esc(s.why));
-  if (!d.dev) out.push("Couldn’t find the creator on pump.fun, so the dev can’t be checked.");
+  if (d.chain === false) out.push("Holder and dev data couldn’t be read from the chain right now.");
+  else if (!d.dev) out.push("Couldn’t find who created this coin, so the dev can’t be checked.");
   else if (d.devPct == null) out.push("Found the creator, but couldn’t read their balance.");
   else if (d.devLeft) out.push("The dev holds nothing" + (d.devLast ? " and was last seen " + esc(ago(d.devLast)) : "") + ". They’re gone.");
   else out.push("The dev still holds " + esc(pct(d.devPct)) + (d.devLast ? ", last active " + esc(ago(d.devLast)) : "") + ".");
