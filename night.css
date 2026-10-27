@@ -1,0 +1,96 @@
+/* cto at night: a candlelit vigil for dead coins. Dark room, paper lit by a candle, a spectral green that never quite goes out */
+:root{--paper:#0a0908;--sheet:#14110f;--ink:#eee5d1;--mute:#a69d8b;--soft:#80786a;--line:rgba(238,229,209,.12);--edge:rgba(238,229,209,.2);
+--stamp:#46f29b;--red:#ff5b4d;--amber:#f2b35c;--kraft:#cfae7a;--glow:rgba(70,242,155,.38);--candle:#ffb45a;--serif:"Instrument Serif",Georgia,serif;--flick:0}
+html{background:#0a0908;color-scheme:dark}
+body{background-color:#0a0908;background-image:radial-gradient(900px 700px at 78% 12%,rgba(255,170,80,.09),transparent 60%),radial-gradient(1000px 800px at 8% 92%,rgba(70,242,155,.06),transparent 60%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");background-attachment:fixed,fixed,scroll}
+::selection{background:rgba(70,242,155,.3);color:#fff}
+/* the room */
+#mist{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.lantern{position:fixed;inset:0;z-index:30;pointer-events:none;opacity:0;transition:opacity .6s;background:radial-gradient(520px circle at var(--mx,50%) var(--my,40%),transparent 0,transparent 30%,rgba(0,0,0,.16) 100%)}
+.fine .lantern{opacity:1}
+/* nav */
+nav{background:rgba(10,9,8,.66)}
+nav.solid{border-color:var(--line)}
+nav .links a:hover{color:#fff;text-shadow:0 0 14px var(--glow)}
+/* the sigil: the seal turns slowly and glows */
+[data-seal] svg{filter:drop-shadow(0 0 6px var(--glow))}
+[data-seal] circle{stroke:var(--stamp)}
+[data-seal] text{fill:var(--stamp)}
+[data-seal] svg>text:first-of-type{transform-box:view-box;transform-origin:100px 100px;animation:turn 36s linear infinite}
+@keyframes turn{to{transform:rotate(360deg)}}
+/* type */
+h1,h2{color:#fbf4e4}
+.head h2 .w:last-child>span{font:italic 400 1.1em/1 var(--serif);letter-spacing:-.01em;color:#8affc4;text-shadow:0 0 26px rgba(70,242,155,.35);padding-right:.05em}
+h1{text-shadow:0 0 60px rgba(255,180,90,.10)}
+h1 em.ghost{font:italic 400 1.08em/1 var(--serif);letter-spacing:-.015em;padding-right:.06em;background:linear-gradient(100deg,#eee5d1 15%,#46f29b 42%,#c9ffe3 50%,#46f29b 58%,#eee5d1 85%) 0 0/260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(70,242,155,.30));animation:shimmer 7s ease-in-out infinite,dim 9s steps(1) infinite}
+@keyframes shimmer{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+@keyframes dim{0%,100%{opacity:1}61%{opacity:1}62%{opacity:.55}63%{opacity:1}64%{opacity:.7}65%{opacity:1}}
+.kick{color:var(--stamp);opacity:.8;text-shadow:0 0 14px var(--glow)}
+.lede,.head p{color:var(--mute)}
+.pill{background:rgba(255,255,255,.03);border-color:var(--edge);color:var(--ink)}
+.pill:before{box-shadow:0 0 10px var(--c,var(--stamp))}
+/* the input and buttons */
+.check input{background:rgba(255,255,255,.035);border:1px solid var(--edge);color:var(--ink)}
+.check input::placeholder{color:var(--soft)}
+.check input:focus{border-color:var(--stamp);box-shadow:0 0 0 3px rgba(70,242,155,.16),0 0 28px -6px var(--glow)}
+.btn{background:linear-gradient(180deg,#63ffb2,#2fd586);color:#04140b;border:0;box-shadow:0 0 28px -8px var(--glow),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn:hover{box-shadow:0 0 40px -4px var(--glow),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--edge);box-shadow:none}
+.btn.ghost:hover{border-color:var(--stamp);box-shadow:0 0 24px -8px var(--glow)}
+.btn .rip{background:rgba(255,255,255,.45)}.btn.ghost .rip{background:rgba(70,242,155,.18)}
+.ca{border-top-color:var(--line)}
+.ca button{border-color:var(--edge)}
+.ca button:not(:disabled):hover{border-color:var(--stamp);color:var(--stamp)}
+/* panels: smoked glass on a dark table */
+.cert,.step,.rules,.tbl,.stats,.toll{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.008)),var(--sheet);border:1px solid var(--edge)}
+.cert{box-shadow:0 30px 80px -40px rgba(0,0,0,.9),0 0 0 1px rgba(70,242,155,.04)}
+.cert .top{border-bottom:1px solid var(--edge)}
+.side{border-left:1px solid var(--edge)}
+.cert .ava{background:#1d1a17;border:1px solid var(--edge)}
+.stat-stamp{mix-blend-mode:normal;text-shadow:0 0 14px currentColor;box-shadow:0 0 22px -6px currentColor,inset 0 0 14px -8px currentColor}
+.step:hover{box-shadow:0 0 0 1px rgba(70,242,155,.45),0 24px 60px -30px var(--glow)}
+.step .n{-webkit-text-stroke:1px rgba(238,229,209,.55)}
+.step:hover .n{-webkit-text-stroke-color:var(--stamp);filter:drop-shadow(0 0 10px var(--glow))}
+.side canvas{border:1px solid var(--edge);box-shadow:0 20px 50px -24px rgba(255,170,80,.25)}
+.faq details{border-top:1px solid var(--edge)}.faq details:last-child{border-bottom:1px solid var(--edge)}
+.faq p{color:var(--mute)}
+.tr>div:last-child{color:var(--mute)}
+.stats b{text-shadow:0 0 18px rgba(238,229,209,.12)}
+.foot{border-top-color:var(--line)}
+/* paper objects keep their ink, lit by the candle */
+.poster,.sign,.tag{color:#161412}
+.poster{background:#f1ebdd;box-shadow:0 30px 60px -24px rgba(0,0,0,.85),0 0 80px -30px rgba(255,180,90,.45)}
+.poster .ph{border-color:#161412}
+.poster:after,.sign:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(130% 100% at 0% 100%,rgba(255,190,110,.20),transparent 45%),radial-gradient(120% 120% at 100% 0%,rgba(10,6,2,.42),transparent 70%);opacity:calc(.82 + var(--flick) * .18)}
+.sign{box-shadow:0 26px 50px -22px rgba(0,0,0,.85)}
+.tape{background:rgba(232,224,200,.72)}
+.hero .stamp{mix-blend-mode:normal;color:var(--stamp);border-color:var(--stamp);outline-color:var(--stamp);text-shadow:0 0 18px var(--glow);box-shadow:0 0 30px -6px var(--glow),inset 0 0 18px -8px var(--glow);z-index:3}
+.tagw{filter:drop-shadow(0 14px 18px rgba(0,0,0,.6)) drop-shadow(0 0 22px rgba(255,170,80,.10))}
+.tag:before{background:#0a0908}
+.tag:hover{filter:brightness(1.06)}
+.bubble{background:#14110f;color:var(--ink);border:1px solid var(--stamp);box-shadow:0 0 30px -8px var(--glow)}
+.bubble:after{background:#14110f;border-color:var(--stamp)}
+/* the vigil candle and the turning ring behind the poster */
+.sigil{position:absolute;left:50%;top:46%;width:min(560px,92vw);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;opacity:.5;z-index:0;overflow:hidden;border-radius:50%}
+.sigil svg{width:100%;height:100%;animation:turn 90s linear infinite;filter:drop-shadow(0 0 8px var(--glow))}
+.sigil .back{position:absolute;inset:0;animation:turn 140s linear infinite reverse}
+.hero .poster,.hero .sign,.hero .stamp{z-index:2}
+.candle{position:absolute;left:-2%;bottom:8px;width:74px;height:190px;z-index:3;pointer-events:none}
+.candle .halo{position:absolute;left:50%;top:6px;width:360px;height:360px;margin-left:-180px;margin-top:-170px;border-radius:50%;background:radial-gradient(circle,rgba(255,180,90,.30),rgba(255,150,60,.10) 35%,transparent 65%);opacity:calc(.75 + var(--flick) * .25);mix-blend-mode:screen}
+.candle svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.candle .flame{transform-box:fill-box;transform-origin:50% 100%;animation:flame 1.9s ease-in-out infinite,ignite .8s .15s cubic-bezier(.2,1.4,.4,1) both}
+.candle .flame2{transform-box:fill-box;transform-origin:50% 100%;animation:flame 1.3s ease-in-out infinite reverse}
+@keyframes flame{0%,100%{transform:scale(1,1) skewX(0)}20%{transform:scale(.94,1.08) skewX(-3deg)}45%{transform:scale(1.04,.95) skewX(2deg)}70%{transform:scale(.97,1.05) skewX(-1deg)}}
+@keyframes ignite{0%{opacity:0;transform:scale(.2,.1)}100%{opacity:1;transform:scale(1)}}
+/* band, footer */
+.band .row{color:#f4ecd9}
+.band .row.o{-webkit-text-stroke:1px rgba(238,229,209,.38)}
+.band .row i{color:var(--stamp);text-shadow:0 0 24px var(--glow)}
+footer p.sweep{background-image:linear-gradient(100deg,#eee5d1 42%,#46f29b 50%,#eee5d1 58%)}
+.fxbar{box-shadow:0 0 12px var(--glow)}
+.ring{border-color:rgba(238,229,209,.6)}
+.ring.big{background-color:rgba(70,242,155,.12);border-color:var(--stamp);box-shadow:0 0 24px -4px var(--glow)}
+.toll .cap{color:var(--mute);border-top-color:var(--line)}
+@media (max-width:980px){.side{border-left:0;border-top:1px solid var(--edge)}.candle{left:0}}
+@media (max-width:560px){.candle{width:52px;height:136px;left:-4px;bottom:0}.candle .halo{width:240px;height:240px;margin-left:-120px;margin-top:-110px}.sigil{top:44%}}
+@media (prefers-reduced-motion:reduce){[data-seal] svg>text:first-of-type,.sigil svg,.sigil .back,.candle .flame,.candle .flame2,h1 em.ghost{animation:none}}

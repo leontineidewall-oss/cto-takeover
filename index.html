@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>cto · community takeover for dead coins</title>
 <meta name="description" content="The dev is gone. The holders took over. Paste any Solana coin and see what's left of it, then take it back.">
-<meta name="theme-color" content="#ece5d3">
+<meta name="theme-color" content="#0a0908">
 <meta property="og:type" content="website">
 <meta property="og:title" content="cto · the dev is gone">
 <meta property="og:description" content="The holders took over. Paste a coin, run the autopsy, print the poster.">
@@ -14,7 +14,7 @@
 <meta name="twitter:image" content="https://cto-takeover.vercel.app/og.jpg">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Courier+Prime:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/fx.css?v=1">
 <style>
 :root{--paper:#ece5d3;--sheet:#f7f4ec;--ink:#161412;--mute:#6f6a60;--soft:#8f897d;--line:rgba(22,20,18,.14);--stamp:#14a854;--red:#c8372d;--amber:#c98a12;--kraft:#d6b887;
@@ -180,6 +180,7 @@ footer p{font:900 clamp(30px,4vw,48px)/1.05 var(--sans);letter-spacing:-.03em}
  footer .wrap{grid-template-columns:minmax(0,1fr)}footer .seal{width:120px;height:120px}
 }
 </style>
+<link rel="stylesheet" href="/night.css?v=1">
 </head>
 <body>
 <nav id="nav"><div class="wrap">
@@ -574,6 +575,7 @@ fetchJson("/api/config", 10000).then(function (r) {
 })();
 
 </script>
-<script src="/fx.js?v=1"></script>
+<script src="/fx.js?v=2"></script>
+<script src="/night.js?v=1"></script>
 </body>
 </html>

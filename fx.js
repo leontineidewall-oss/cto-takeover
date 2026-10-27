@@ -256,6 +256,7 @@ if (tagsEl) {
 /* ---------- the toll canvas: routed trades pay, the toll burns, direct trades skip ---------- */
 var tc = $(".toll canvas");
 if (tc) (function () {
+  var cs = getComputedStyle(root), TI = cs.getPropertyValue("--ink").trim() || TI, TS = cs.getPropertyValue("--soft").trim() || TS, TB = cs.getPropertyValue("--sheet").trim() || TB, TG = cs.getPropertyValue("--stamp").trim() || TG;
   var c = tc.getContext("2d"), W = 0, H = 0, dots = [], chips = [], sparks = [], on = false, acc = 0, spawn = 0, R = Math.random;
   function size() {
     var dpr = Math.min(window.devicePixelRatio || 1, innerWidth < 600 ? 1.5 : 1.75);
@@ -268,29 +269,29 @@ if (tc) (function () {
   if (still) for (var i = 0; i < 14; i++) add(R() * W);
   function draw(dt) {
     c.clearRect(0, 0, W, H);
-    c.strokeStyle = "rgba(22,20,18,.16)"; c.lineWidth = 1; c.setLineDash([6, 6]);
+    c.strokeStyle = "rgba(128,120,106,.35)"; c.lineWidth = 1; c.setLineDash([6, 6]);
     [top(), low()].forEach(function (y) { c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke(); });
     c.setLineDash([]);
     var sm = W < 600;
-    label(sm ? "DIRECT · NO TOLL" : "DIRECT ON PUMP · NO TOLL", 14, top() - 14, "#8f897d");
-    label(sm ? "ROUTED · 0.5% TOLL" : "ROUTED THROUGH CTO · 0.5% TOLL", 14, low() - 14, "#161412");
-    if (!sm) label("TO MARKET →", W - 14, low() - 14, "#8f897d", "right");
+    label(sm ? "DIRECT · NO TOLL" : "DIRECT ON PUMP · NO TOLL", 14, top() - 14, TS);
+    label(sm ? "ROUTED · 0.5% TOLL" : "ROUTED THROUGH CTO · 0.5% TOLL", 14, low() - 14, TI);
+    if (!sm) label("TO MARKET →", W - 14, low() - 14, TS, "right");
     var x = gx(), y = low();
-    c.fillStyle = "#f7f4ec"; c.strokeStyle = "#14a854"; c.lineWidth = 3; c.fillRect(x - 26, y - 22, 52, 44); c.strokeRect(x - 26, y - 22, 52, 44);
-    c.font = "900 16px Inter, system-ui, sans-serif"; c.fillStyle = "#14a854"; c.textAlign = "center"; c.fillText("cto", x, y + 6);
+    c.fillStyle = TB; c.strokeStyle = TG; c.lineWidth = 3; c.fillRect(x - 26, y - 22, 52, 44); c.strokeRect(x - 26, y - 22, 52, 44);
+    c.font = "900 16px Inter, system-ui, sans-serif"; c.fillStyle = TG; c.textAlign = "center"; c.fillText("cto", x, y + 6);
     var py = pit(), fl = 1 + Math.sin(performance.now() / 120) * 0.12;
     c.fillStyle = "#c98a12"; c.beginPath(); c.moveTo(x - 18, py + 12); c.quadraticCurveTo(x - 14, py - 16 * fl, x, py - 26 * fl); c.quadraticCurveTo(x + 14, py - 16 * fl, x + 18, py + 12); c.fill();
     c.fillStyle = "#c8372d"; c.beginPath(); c.moveTo(x - 10, py + 12); c.quadraticCurveTo(x - 7, py - 6 * fl, x, py - 14 * fl); c.quadraticCurveTo(x + 7, py - 6 * fl, x + 10, py + 12); c.fill();
-    label("BUY + BURN", sm ? x - 30 : x + 30, py + 4, "#161412", sm ? "right" : "left");
+    label("BUY + BURN", sm ? x - 30 : x + 30, py + 4, TI, sm ? "right" : "left");
     var s = dt / 1000;
     dots.forEach(function (d) {
       if (!still) d.x += d.v * s;
       var yy = d.lane ? low() : top();
       if (d.lane && !d.paid && d.x >= x) { d.paid = true; if (!still) chips.push({ x: x, y: y + 22, v: 0 }); }
-      c.fillStyle = "#161412"; c.beginPath(); c.arc(d.x, yy, d.r, 0, 7); c.fill();
+      c.fillStyle = TI; c.beginPath(); c.arc(d.x, yy, d.r, 0, 7); c.fill();
     });
     dots = dots.filter(function (d) { return d.x < W + 20; });
-    chips.forEach(function (k) { k.v += 260 * s; k.y += k.v * s; c.fillStyle = "#14a854"; c.fillRect(k.x - 3, k.y - 3, 6, 6); if (k.y > py - 8) { k.done = true; for (var j = 0; j < 5; j++) sparks.push({ x: k.x, y: py - 10, vx: (R() - 0.5) * 60, vy: -40 - R() * 60, l: 1 }); } });
+    chips.forEach(function (k) { k.v += 260 * s; k.y += k.v * s; c.fillStyle = TG; c.fillRect(k.x - 3, k.y - 3, 6, 6); if (k.y > py - 8) { k.done = true; for (var j = 0; j < 5; j++) sparks.push({ x: k.x, y: py - 10, vx: (R() - 0.5) * 60, vy: -40 - R() * 60, l: 1 }); } });
     chips = chips.filter(function (k) { return !k.done; });
     sparks.forEach(function (p) { p.x += p.vx * s; p.y += p.vy * s; p.vy += 90 * s; p.l -= 1.6 * s; c.fillStyle = "rgba(200,55,45," + Math.max(0, p.l).toFixed(2) + ")"; c.fillRect(p.x, p.y, 2.5, 2.5); });
     sparks = sparks.filter(function (p) { return p.l > 0; });
