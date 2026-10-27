@@ -180,7 +180,7 @@ footer p{font:900 clamp(30px,4vw,48px)/1.05 var(--sans);letter-spacing:-.03em}
  footer .wrap{grid-template-columns:minmax(0,1fr)}footer .seal{width:120px;height:120px}
 }
 </style>
-<link rel="stylesheet" href="/night.css?v=1">
+<link rel="stylesheet" href="/night.css?v=2">
 </head>
 <body>
 <nav id="nav"><div class="wrap">
@@ -406,8 +406,9 @@ function stampCanvas(text, color, seed) {
 function poster(d) {
   var W = 900, H = 1200, sym = d && d.symbol ? "$" + clean(d.symbol, 14).toUpperCase() : null, r = rng((d && d.mint) || "cto");
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
-  ctx.fillStyle = "#ece5d3"; ctx.fillRect(0, 0, W, H);
-  ctx.save(); ctx.shadowColor = "rgba(40,30,10,.28)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 18;
+  var bg = ctx.createRadialGradient(W / 2, H * 0.42, 80, W / 2, H / 2, W); bg.addColorStop(0, "#1c1914"); bg.addColorStop(1, "#060505");
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  ctx.save(); ctx.shadowColor = "rgba(70,242,155,.38)"; ctx.shadowBlur = 60; ctx.shadowOffsetY = 0;
   ctx.fillStyle = "#f7f4ec"; ctx.fillRect(60, 60, W - 120, H - 120); ctx.restore();
   for (var i = 0; i < 2600; i++) { ctx.fillStyle = "rgba(70,60,40," + (r() * 0.05).toFixed(3) + ")"; ctx.fillRect(60 + r() * (W - 120), 60 + r() * (H - 120), 2, 2); }
   ctx.save(); ctx.fillStyle = "rgba(236,228,205,.85)";
@@ -576,6 +577,6 @@ fetchJson("/api/config", 10000).then(function (r) {
 
 </script>
 <script src="/fx.js?v=2"></script>
-<script src="/night.js?v=1"></script>
+<script src="/night.js?v=2"></script>
 </body>
 </html>

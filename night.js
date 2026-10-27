@@ -1,4 +1,4 @@
-/* cto at night: mist and motes in the room, a vigil candle that flickers, a ring that turns behind the poster */
+/* cto at night: mist and motes in the room, a beam of light on the poster, a ring that turns behind it, a spirit trail on the cursor */
 (function () {
 "use strict";
 var $ = function (s) { return document.querySelector(s); };
@@ -32,31 +32,60 @@ if (board) {
   sig.innerHTML = ring(176, { id: "sg1", t: "IN MEMORY OF THE DEV ✦ THE HOLDERS KEEP THE WATCH ✦ IN MEMORY OF THE DEV ✦ THE HOLDERS KEEP THE WATCH ✦" }, 11, 3.2) +
     '<div class="back">' + ring(130, { id: "sg2", t: "✦ COMMUNITY TAKEOVER ✦ COMMUNITY TAKEOVER ✦ COMMUNITY TAKEOVER ✦ COMMUNITY TAKEOVER" }, 9, 2.6) + "</div>";
   board.insertBefore(sig, board.firstChild);
-  // the vigil candle
-  var c = el("div", "candle");
-  c.setAttribute("aria-hidden", "true");
-  c.innerHTML = '<div class="halo"></div><svg viewBox="0 0 74 190">' +
-    '<defs><linearGradient id="wax" x1="0" x2="1"><stop offset="0" stop-color="#cdbf9f"/><stop offset=".45" stop-color="#f3ead4"/><stop offset="1" stop-color="#a99a7a"/></linearGradient>' +
-    '<radialGradient id="fl" cx=".5" cy=".72" r=".6"><stop offset="0" stop-color="#fffbe8"/><stop offset=".35" stop-color="#ffd27a"/><stop offset=".8" stop-color="#ff9a3a" stop-opacity=".85"/><stop offset="1" stop-color="#ff7a20" stop-opacity="0"/></radialGradient></defs>' +
-    '<path d="M14 74 Q14 68 22 67 L52 67 Q60 68 60 74 L60 186 L14 186 Z" fill="url(#wax)"/>' +
-    '<path d="M22 67 Q26 80 24 96 Q23 104 27 104 Q31 104 30 92 Q29 78 33 70 M44 68 Q47 76 46 86 Q46 92 49 91 Q52 90 51 80 Q50 72 53 68" fill="#efe4c8" opacity=".9"/>' +
-    '<ellipse cx="37" cy="68" rx="23" ry="4" fill="#e9dec2"/>' +
-    '<path d="M37 68 L37 58" stroke="#2a211a" stroke-width="2" stroke-linecap="round"/>' +
-    '<path class="flame" d="M37 14 C46 30 50 40 48 50 C46 58 41 62 37 62 C33 62 28 58 26 50 C24 40 28 30 37 14 Z" fill="url(#fl)"/>' +
-    '<path class="flame2" d="M37 34 C41 42 42 48 41 53 C40 57 38 59 37 59 C36 59 34 57 33 53 C32 48 33 42 37 34 Z" fill="#fffdf2" opacity=".9"/>' +
-    '<ellipse cx="37" cy="186" rx="30" ry="4" fill="#000" opacity=".5"/></svg>';
-  board.appendChild(c);
+  // a cold beam of light falls on the poster
+  var beam = el("div", "beam"); beam.setAttribute("aria-hidden", "true");
+  board.insertBefore(beam, board.firstChild);
 }
 
-/* the flicker: one slow noise drives the candle, its halo and the light on the paper */
+/* the light breathes: clouds pass over it now and then */
 if (!still) {
-  var f = 0, target = 0, nextT = 0;
   (function tick(t) {
-    if (t > nextT) { target = Math.random(); nextT = t + 60 + Math.random() * 180; if (Math.random() < 0.04) target = -0.6; }
-    f += (target - f) * 0.18;
-    root.style.setProperty("--flick", f.toFixed(3));
-    requestAnimationFrame(tick);
+    var v = 0.5 + 0.35 * Math.sin(t / 2300) + 0.15 * Math.sin(t / 830);
+    root.style.setProperty("--flick", v.toFixed(3));
+    setTimeout(function () { requestAnimationFrame(tick); }, 60);
   })(0);
+}
+
+/* the headline comes out of the mist, word by word */
+if (h1 && !still) {
+  var wi = 0;
+  Array.prototype.slice.call(h1.childNodes).forEach(function (n) {
+    if (n.nodeType === 3) {
+      var frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(function (p) {
+        if (!p) return;
+        if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+        var sp = el("span", "mw"); sp.textContent = p; sp.style.setProperty("--i", wi++); frag.appendChild(sp);
+      });
+      h1.replaceChild(frag, n);
+    } else if (n.nodeType === 1 && n.tagName === "EM") {
+      var wrap = el("span", "mw"); wrap.style.setProperty("--i", wi++); h1.replaceChild(wrap, n); wrap.appendChild(n);
+    }
+  });
+}
+
+/* a spirit trail follows the mouse */
+if (fine && !still) {
+  var tr = el("canvas"); tr.className = "trail"; tr.setAttribute("aria-hidden", "true"); document.body.appendChild(tr);
+  var tx2 = tr.getContext("2d"), parts = [], live = false, tw2 = 0, th2 = 0, lastP = 0;
+  var tsize = function () { tw2 = tr.width = innerWidth; th2 = tr.height = innerHeight; };
+  tsize(); addEventListener("resize", tsize);
+  addEventListener("pointermove", function (e) {
+    var now = performance.now(); if (now - lastP < 24) return; lastP = now;
+    if (parts.length < 70) parts.push({ x: e.clientX, y: e.clientY, vx: (Math.random() - 0.5) * 0.4, vy: -0.25 - Math.random() * 0.5, l: 1, r: 1 + Math.random() * 2.2 });
+    if (!live) { live = true; requestAnimationFrame(trail); }
+  }, { passive: true });
+  var trail = function () {
+    tx2.clearRect(0, 0, tw2, th2);
+    parts.forEach(function (p) {
+      p.x += p.vx; p.y += p.vy; p.l -= 0.022;
+      var g = tx2.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 5);
+      g.addColorStop(0, "rgba(160,255,210," + (0.5 * p.l).toFixed(3) + ")"); g.addColorStop(1, "rgba(70,242,155,0)");
+      tx2.fillStyle = g; tx2.fillRect(p.x - p.r * 5, p.y - p.r * 5, p.r * 10, p.r * 10);
+    });
+    parts = parts.filter(function (p) { return p.l > 0; });
+    if (parts.length) requestAnimationFrame(trail); else { live = false; tx2.clearRect(0, 0, tw2, th2); }
+  };
 }
 
 /* the lantern: a soft light that follows the mouse */
@@ -67,7 +96,7 @@ if (fine && !still) {
   (function follow() { lx += (tx - lx) * 0.12; ly += (ty - ly) * 0.12; lan.style.setProperty("--mx", lx.toFixed(0) + "px"); lan.style.setProperty("--my", ly.toFixed(0) + "px"); requestAnimationFrame(follow); })();
 }
 
-/* the room: slow mist, embers rising from the candle side, green wisps that wander */
+/* the room: slow mist, embers rising, green wisps that wander */
 var cv = el("canvas"); cv.id = "mist"; cv.setAttribute("aria-hidden", "true");
 document.body.insertBefore(cv, document.body.firstChild);
 var x = cv.getContext("2d"), W = 0, H = 0, S = 0.5, fog = [], motes = [], R = Math.random;
