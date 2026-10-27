@@ -33,10 +33,10 @@ band.setAttribute("aria-hidden", "true");
 var t1 = "", t2 = "";
 for (var k = 0; k < 6; k++) { t1 += "<span>THE DEV LEFT <i>✦</i></span>"; t2 += "<span>THE HOLDERS STAYED <i>✦</i></span>"; }
 band.children[0].innerHTML = t1; band.children[1].innerHTML = t2;
-if (hero) hero.parentNode.insertBefore(band, hero.nextSibling);
+// (band left out: less text)
 // the morgue, after the autopsy
 var morgue = el("section", "sec", '<div class="wrap"><div class="head rv"><span class="kick">02 · The morgue</span><h2>Checked in today.</h2>' +
-  '<p>Coins that recently listed on DexScreener, and their condition right now. Tap a tag to run the autopsy.</p></div>' +
+  '<p>New listings, checked live. Tap one.</p></div>' +
   '<div class="tags" id="tags"></div><p class="src" id="mcount">Checking the morgue…</p></div>');
 morgue.id = "morgue";
 var aut = $("#autopsy");
@@ -46,7 +46,7 @@ if (navLinks) { var a = el("a", null, "Morgue"); a.href = "#morgue"; navLinks.in
 // the toll canvas, in how it works
 var steps = $("#how .steps");
 var toll = el("div", "toll rv", '<canvas aria-label="Illustration: routed trades pay a toll that buys and burns the coin; direct trades skip it"></canvas>' +
-  '<p class="cap">Illustration. Routed trades pay the toll and it burns. Direct trades on Pump skip it.</p>');
+  '<p class="cap">Illustration &middot; direct trades skip the toll</p>');
 if (steps) steps.parentNode.insertBefore(toll, steps.nextSibling);
 // renumber the kickers now that there is one more section
 var n = 0;

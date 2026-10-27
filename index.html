@@ -192,10 +192,10 @@ footer p{font:900 clamp(30px,4vw,48px)/1.05 var(--sans);letter-spacing:-.03em}
   <div>
     <span class="pill">Community takeover</span>
     <h1>The dev<br>is gone.</h1>
-    <p class="lede">The holders took over. Paste any Solana coin and see what&rsquo;s left of it.</p>
+    <p class="lede">Paste a coin. See what&rsquo;s left.</p>
     <form class="check" id="checkform" autocomplete="off"><input id="mint" placeholder="Paste a coin's CA" spellcheck="false" aria-label="Token address"><button class="btn" id="checkbtn" type="submit">Run the autopsy</button></form>
     <div class="msg" id="msg" role="status"></div>
-    <p class="note">Free. Reads public data only. No wallet needed.</p>
+    <p class="note">Free &middot; public data &middot; no wallet</p>
     <div class="ca"><b>$CTO</b><code id="ca">&mdash;</code><button id="cacopy" disabled>COPY</button></div>
   </div>
   <div class="board rv" aria-hidden="true">
@@ -211,7 +211,7 @@ footer p{font:900 clamp(30px,4vw,48px)/1.05 var(--sans);letter-spacing:-.03em}
 </div></header>
 
 <section class="sec" id="autopsy"><div class="wrap">
-  <div class="head rv"><span class="kick">01 &middot; The autopsy</span><h2>What&rsquo;s left of it.</h2><p>Market, holders and the dev, read live from the chain.</p></div>
+  <div class="head rv"><span class="kick">01 &middot; The autopsy</span><h2>What&rsquo;s left of it.</h2></div>
   <div class="cert rv" id="cert">
     <span class="stat-stamp" id="statstamp">&mdash;</span>
     <div class="top"><div class="ava" id="ava">?</div><div class="nm"><b id="cname">No coin yet</b><span id="cmint">Paste a CA above.</span></div><div class="lab">CERTIFICATE<br>OF CONDITION</div></div>
@@ -242,9 +242,9 @@ footer p{font:900 clamp(30px,4vw,48px)/1.05 var(--sans);letter-spacing:-.03em}
 <section class="sec" id="how"><div class="wrap">
   <div class="head rv"><span class="kick">02 &middot; How a CTO works</span><h2>Take it back in three moves.</h2></div>
   <div class="steps">
-    <div class="step rv"><div class="n">01</div><h3>Paste the CA</h3><p>Run the autopsy. Check the dev is really gone.</p></div>
-    <div class="step rv"><div class="n">02</div><h3>Hook it</h3><p>Trades routed through cto pay a small toll that buys the coin and burns it.</p></div>
-    <div class="step rv"><div class="n">03</div><h3>Hand it over</h3><p>The top holders form a council and decide what&rsquo;s next.</p></div>
+    <div class="step rv"><div class="n">01</div><h3>Paste the CA</h3><p>Check the dev is gone.</p></div>
+    <div class="step rv"><div class="n">02</div><h3>Hook it</h3><p>Routed trades pay a toll. It burns.</p></div>
+    <div class="step rv"><div class="n">03</div><h3>Hand it over</h3><p>The top holders run it.</p></div>
   </div>
   <div class="rules rv">
     <div class="rule"><b>0.5%</b><span>toll on routed trades</span></div>
@@ -267,7 +267,7 @@ footer p{font:900 clamp(30px,4vw,48px)/1.05 var(--sans);letter-spacing:-.03em}
 </div></section>
 
 <section class="sec" id="token"><div class="wrap">
-  <div class="head rv"><span class="kick">04 &middot; $CTO</span><h2>The coin of the takeover.</h2><p>The coin behind cto.</p></div>
+  <div class="head rv"><span class="kick">04 &middot; $CTO</span><h2>The coin of the takeover.</h2></div>
   <div class="stats rv"><div><small>Price</small><b data-m="price">&mdash;</b></div><div><small>Market cap</small><b data-m="mcap">&mdash;</b></div><div><small>24h volume</small><b data-m="vol">&mdash;</b></div><div><small>Liquidity</small><b data-m="liq">&mdash;</b></div></div>
   <p class="src" id="msrc">Live once the contract is posted. A dash means no data, never zero.</p>
 </div></section>
@@ -576,7 +576,7 @@ fetchJson("/api/config", 10000).then(function (r) {
 })();
 
 </script>
-<script src="/fx.js?v=2"></script>
+<script src="/fx.js?v=3"></script>
 <script src="/night.js?v=2"></script>
 </body>
 </html>
